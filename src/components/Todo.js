@@ -1,11 +1,10 @@
 import React from 'react'
+import './Todo.css'
 
 const Todo = ({ text, completed, toggleTodo }) => {
     return (
-        <div onClick={toggleTodo}
-            style={
-                completed ? { color: "red" } : {}
-            }
+        <div className={"todo" + (completed ? " completed" : "")} onClick={toggleTodo}
+            
         >
             {text}
         </div>
