@@ -7,7 +7,9 @@ import { visibilityFilters } from '../visibilitiFilters'
 const TodoList = props => {            
     return (
         <div className="todolist">
-            {props.todoList.map( todo =>
+            {props.todoList
+                .sort( (a,b) => b.id - a.id)
+                .map( todo =>
                 <Todo {...todo}
                     toggleTodo={ () => props.onClickItem(todo.id)} 
                     key={todo.id}

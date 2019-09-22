@@ -1,60 +1,85 @@
 
 const initialState = [
     {
-        "id": "5d8770d84ea42b9fb9131a13",
-        "text": "Ingram Mills",
+        "id": 0,
+        "text": "667 Lamont Court, Barstow, Kansas, 7183",
         "completed": false
       },
       {
-        "id": "5d8770d89caf1667f7159728",
-        "text": "Barbara Romero",
+        "id": 1,
+        "text": "847 Varet Street, Linganore, Rhode Island, 6969",
+        "completed": false
+      },
+      {
+        "id": 2,
+        "text": "938 Stockholm Street, Lowell, Georgia, 5969",
+        "completed": false
+      },
+      {
+        "id": 3,
+        "text": "713 Hart Street, Ogema, Missouri, 125",
+        "completed": false
+      },
+      {
+        "id": 4,
+        "text": "666 Pineapple Street, Ventress, Delaware, 888",
         "completed": true
       },
       {
-        "id": "5d8770d8f068712b296ec5b5",
-        "text": "Gaines Kennedy",
+        "id": 5,
+        "text": "840 Fulton Street, Cannondale, South Carolina, 2480",
+        "completed": false
+      },
+      {
+        "id": 6,
+        "text": "122 Varick Street, Barronett, New Hampshire, 6733",
+        "completed": false
+      },
+      {
+        "id": 7,
+        "text": "831 Blake Avenue, Selma, Wyoming, 2198",
         "completed": true
       },
       {
-        "id": "5d8770d86ab51c1e5ad11c01",
-        "text": "Cristina Mejia",
-        "completed": false
-      },
-      {
-        "id": "5d8770d8571791aba19dbf27",
-        "text": "Melton Downs",
+        "id": 8,
+        "text": "725 Jerome Avenue, Orovada, Mississippi, 6719",
         "completed": true
       },
       {
-        "id": "5d8770d8e4940ae68dd88ea2",
-        "text": "Ruby Dean",
-        "completed": false
-      },
-      {
-        "id": "5d8770d8137fe7bd74b534e3",
-        "text": "Guy Hunt",
+        "id": 9,
+        "text": "928 Dare Court, Marshall, Tennessee, 5962",
         "completed": true
       },
       {
-        "id": "5d8770d83d6bd4050af58730",
-        "text": "Jocelyn Donaldson",
+        "id": 10,
+        "text": "128 Seton Place, Freeburn, Maine, 8677",
         "completed": false
       },
       {
-        "id": "5d8770d820cb9a580e5668a4",
-        "text": "Kitty Stevens",
+        "id": 11,
+        "text": "191 Clifton Place, Heil, Maryland, 2458",
         "completed": true
       },
       {
-        "id": "5d8770d8cbbfe9928594b2fb",
-        "text": "Cardenas Burch",
+        "id": 12,
+        "text": "120 Humboldt Street, Haena, North Carolina, 5960",
+        "completed": true
+      },
+      {
+        "id": 13,
+        "text": "778 Johnson Avenue, Williston, Indiana, 8468",
+        "completed": true
+      },
+      {
+        "id": 14,
+        "text": "622 McClancy Place, Rowe, Northern Mariana Islands, 8462",
         "completed": false
       },
       {
-        "id": "5d8770d8a492265f9357e5fb",
-        "text": "Penny Johns",
+        "id": 15,
+        "text": "992 Lynch Street, Nettie, Arkansas, 2240",
         "completed": false
-      }   
+      }
 ]
 
 export const todosReducer = (state = initialState, action) => {
