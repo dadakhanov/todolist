@@ -5,9 +5,8 @@ import { toggleTodo } from '../actions/todo-actions'
 import { visibilityFilters } from '../visibilitiFilters'
 
 const TodoList = props => {            
-    
     return (
-        <div>
+        <div className="todolist">
             {props.todoList.map( todo =>
                 <Todo {...todo}
                     toggleTodo={ () => props.onClickItem(todo.id)} 
@@ -16,20 +15,35 @@ const TodoList = props => {
             )}
         </div>
     )
-
-
 }
 
-const mapStateToProps = (state, ownProps) => {        
+const mapStateToProps = (state, ownProps) => {      
+    console.log("mapStateToProps from Todolist")  
     
-    switch (ownProps.filter){
-        case visibilityFilters.SHOW_ACTIVE:
-            return {todoList: state.todoList.filter(t=> !t.completed)}
-        case visibilityFilters.SHOW_COMPLETED:
-            return {todoList: state.todoList.filter(t=> t.completed)}        
-        default:
-            return {todoList: state.todoList}
-    }    
+    let visibilityFilter = todo =>{
+        switch (ownProps.filter){
+            case visibilityFilters.SHOW_ACTIVE:
+                return !todo.completed
+            case visibilityFilters.SHOW_COMPLETED:
+                return todo.completed
+            default:
+                return true
+        }        
+    }
+
+    let searchTextFilter = (srchTxt,todo) =>{
+        if (srchTxt==="")
+            return true
+        else
+            return todo.text.toLowerCase().includes(srchTxt.toLowerCase())
+    }
+
+    const searchText = state.searchBar.textToSearch
+    return {
+        todoList: state.todoList.filter( todo =>
+            visibilityFilter(todo) && searchTextFilter(searchText,todo)
+            )
+    } 
 }
 
 const mapDispatchToProps = dispatch => {
