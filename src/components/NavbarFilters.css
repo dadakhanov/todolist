@@ -3,7 +3,12 @@
     color:gray;
 }
 
+.NavbarFilters_LinkHolder a{    
+    padding: 4px;
+}
+
 .NavbarFilters_LinkHolder a.active{    
     color:midnightblue;
     background-color: lightblue;
 }
+
