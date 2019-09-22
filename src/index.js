@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux'
+import { createStore} from 'redux';
+import combinedReducers from './reducer';
+import {BrowserRouter} from 'react-router-dom'
 
+const store = createStore(combinedReducers);
 
-ReactDOM.render(
-    <Provider>
-        <App store={store}/>
-    </Provider>
-    , document.getElementById('rood')
-)
+ReactDOM.render(<Provider store={store}><BrowserRouter> <App /></BrowserRouter></Provider>, document.getElementById('root'))
 
 
 serviceWorker.unregister();
