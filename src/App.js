@@ -5,15 +5,12 @@ import TodoList from './containers/TodoList';
 import NavbarFilters from './components/NavbarFilters';
 import { Route } from 'react-router-dom'
 import { visibilityFilters } from './visibilitiFilters';
-import SearchBar from './containers/SearchBar';
-
 
 function App() {
   return (
     <div className="App">
       <div>        
         <NavbarFilters />        
-        <SearchBar />
       </div>
       <div>        
         <AddTodo />

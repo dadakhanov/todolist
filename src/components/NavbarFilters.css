@@ -1,0 +1,9 @@
+.NavbarFilters_LinkHolder a{
+    text-decoration: none;
+    color:gray;
+}
+
+.NavbarFilters_LinkHolder a.active{    
+    color:midnightblue;
+    background-color: lightblue;
+}
