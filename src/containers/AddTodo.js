@@ -16,10 +16,6 @@ const AddTodo = props => {
     )
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addTodo: text => dispatch(addTodo(text))
-    }
-}
+const mapDispatchToProps = dispatch => ({addTodo: text => dispatch(addTodo(text))})
 
 export default connect(null, mapDispatchToProps)(AddTodo)
