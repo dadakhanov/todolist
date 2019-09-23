@@ -3,7 +3,8 @@ const initialState = {
 }
 
 export const searchBarReducer = (state = initialState, action) => {
-    if (action.type === "SEARCH"){
+    if (action.type === "SEARCH") {
+        console.log("search reducer called with " + action.textToSearch)
         return {
             textToSearch: action.textToSearch
         }

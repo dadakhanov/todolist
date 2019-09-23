@@ -1,5 +1,36 @@
 
-const initialState = [
+export const todosReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_TODO':            
+            return [
+                ...state,
+                action.todo
+            ]
+        case 'TOGGLE_TODO':            
+            return state.map(todo =>
+                    todo.id === action.id
+                        ? { ...todo, completed: !todo.completed }
+                        : todo
+                )
+        case 'SET_TODOS':
+            console.log(action.todoList)
+            return action.todoList
+        case 'SAVE_TODO':
+            console.log(action.todo)
+            return state.map(todo =>
+                todo.id === action.id
+                    ? { ...todo, text: todo.text, completed: todo.completed }
+                    : todo
+            )
+
+        default:
+            return state;
+    }
+}
+
+
+/*
+
     {
         "id": 0,
         "text": "667 Lamont Court, Barstow, Kansas, 7183",
@@ -80,27 +111,4 @@ const initialState = [
         "text": "992 Lynch Street, Nettie, Arkansas, 2240",
         "completed": false
       }
-]
-
-export const todosReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'ADD_TODO':            
-            return [
-                ...state,
-                {
-                    id: state.length,
-                    text: action.text,
-                    completed: false
-                }
-            ]
-        case 'TOGGLE_TODO':            
-            return state.map(todo =>
-                    todo.id === action.id
-                        ? { ...todo, completed: !todo.completed }
-                        : todo
-                )            
-        default:
-            return state;
-    }
-}
-
+ */

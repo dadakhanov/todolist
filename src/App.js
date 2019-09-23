@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import AddTodo from './containers/AddTodo';
-import TodoList from './containers/TodoList';
-import NavbarFilters from './components/NavbarFilters';
+import AddTodoContainer from './components/AddTodo/AddTodoContainer';
+import TodoListContainer from './components/TodoList/TodoListContainer';
+import NavbarFilters from './components/NavbarFilters/NavbarFilters';
 import { Route } from 'react-router-dom'
 import { visibilityFilters } from './visibilitiFilters';
 
@@ -13,10 +13,10 @@ function App() {
         <NavbarFilters />        
       </div>
       <div>        
-        <AddTodo />
-        <Route exact path={["/active","/"]}  render={()=><TodoList filter={visibilityFilters.SHOW_ACTIVE}/>} />
-        <Route path="/completed" render={()=><TodoList filter={visibilityFilters.SHOW_COMPLETED}/>} />
-        <Route path="/all" render={()=><TodoList filter={visibilityFilters.SHOW_ALL}/>} />
+        <AddTodoContainer />
+        <Route exact path={["/active","/"]}  render={()=><TodoListContainer filter={visibilityFilters.SHOW_ACTIVE}/>} />
+        <Route path="/completed" render={()=><TodoListContainer filter={visibilityFilters.SHOW_COMPLETED}/>} />
+        <Route path="/all" render={()=><TodoListContainer filter={visibilityFilters.SHOW_ALL}/>} />
       </div>
     </div>
   );
