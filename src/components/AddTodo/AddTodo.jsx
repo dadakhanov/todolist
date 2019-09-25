@@ -1,10 +1,11 @@
 import React from 'react'
+import styles from './AddTodo.module.css'
 
-const AddTodo = ({textToSearch,search,addTodo,textAddTodo,setAddTodoText}) => {
+export default function AddTodo({addTodo,textAddTodo,setAddTodoText}){
     let input;
 
     return (
-        <div>
+        <div className={styles.AddTodo}>
             <input ref ={ref => input = ref}
                    placeholder={"new task..."}
                    value={textAddTodo}
@@ -12,9 +13,8 @@ const AddTodo = ({textToSearch,search,addTodo,textAddTodo,setAddTodoText}) => {
             />
             <button onClick={ () => {
                 addTodo(input.value)                
-            }}>add todo</button>
-        </div>
+            }}>add todo</button>         
+                    </div>
     )
 }
 
-export default AddTodo

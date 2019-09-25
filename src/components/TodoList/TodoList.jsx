@@ -1,7 +1,7 @@
 import React from 'react'
 import Todo from "../Todo/Todo";
 
-const TodoList = props => {
+export default function TodoList(props) {
     return  <div className="todolist">
         {props.todoList
             //.sort((a, b) => b.id - a.id)
@@ -10,8 +10,7 @@ const TodoList = props => {
                       toggleTodo={() => props.toggleTodo(todo)}
                       key={todo.id}
                 />
+                
             )}            
     </div>
 }
-
-export default TodoList

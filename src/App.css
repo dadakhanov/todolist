@@ -1,6 +1,11 @@
-.App {  
- 
-  margin: 10px;
+.App {
+
+  margin: auto;
+  margin-top: 10px;
+  width: 500px;
+  min-height: 310px;
+  padding: 4p;
+
 }
 
 Input{

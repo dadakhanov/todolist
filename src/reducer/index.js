@@ -1,12 +1,10 @@
-import { todosReducer } from "./todos";
+import { todosReducer } from "./todolistReducer";
 import { combineReducers } from "redux";
-import { searchBarReducer } from "./serachbar";
-import {settingsReducer} from "./settingsReducer";
-import { addTodoReducer } from "./addTodoReducer";
+import { settingsReducer } from "./settingsReducer";
+import { addTodoReducer } from "./addtodoReducer";
 
 export default combineReducers({
-    todoList: todosReducer,
-    searchBar: searchBarReducer,
+    todoList: todosReducer,    
     settings: settingsReducer,
     textAddTodo: addTodoReducer
 })

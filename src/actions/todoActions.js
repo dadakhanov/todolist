@@ -1,7 +1,8 @@
-export const setTodos = todos => {
+export const setTodos = (todos, serverTotalCount) => {
     return {
         type: 'SET_TODOS',
-        todoList: todos
+        todoList: todos,
+        serverTotalCount
     }
 }
 

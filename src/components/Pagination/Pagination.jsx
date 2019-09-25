@@ -1,9 +1,16 @@
 import React from 'react'
 import styles from './Pagination.module.css'
-export default function Pagination({ currentPage, pageMax, pageCount, switchPage }) {
-    //const pageCount = Math.ceil( itemCount / pageSize)
-    
+import PropTypes from 'prop-types'
 
+const propTypes = {
+    currentPage: PropTypes.number.isRequired,
+    pageMax: PropTypes.number,
+    pageCount: PropTypes.number.isRequired,
+    switchPage: PropTypes.func.isRequired
+}
+
+export default function Pagination({ currentPage, pageMax, pageCount, switchPage}) {
+    //const pageCount = Math.ceil( itemCount / pageSize)
     if (pageCount < 2) 
         return <div></div>       
     
@@ -157,3 +164,5 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
         </div>
     )
 }
+
+Pagination.propTypes = propTypes

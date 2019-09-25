@@ -2,7 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import './NavbarFilters.css'
 
-export const NavbarFilters = () => {
+export default function NavbarFilters(){
     return <div className="NavbarFilters_LinkHolder">
         <NavLink to="/active" isActive={(m,l)=>l.pathname==="/" || m}>ACTIVE</NavLink>
         <NavLink to="/completed" >COMPLETED</NavLink>
@@ -10,6 +10,3 @@ export const NavbarFilters = () => {
     </div>
 
 }
-
-
-export default NavbarFilters
