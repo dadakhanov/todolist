@@ -1,19 +1,17 @@
 import React from 'react'
 
-const AddTodo = ({textToSearch,search,addTodo}) => {
+const AddTodo = ({textToSearch,search,addTodo,textAddTodo,setAddTodoText}) => {
     let input;
 
     return (
         <div>
             <input ref ={ref => input = ref}
-                   onChange={()=>search(input.value)}
-                   value={textToSearch}
-                   placeholder={"search/new"}
-
+                   placeholder={"new task..."}
+                   value={textAddTodo}
+                   onChange={()=>setAddTodoText(input.value)}
             />
             <button onClick={ () => {
-                addTodo(input.value)
-                search("")
+                addTodo(input.value)                
             }}>add todo</button>
         </div>
     )

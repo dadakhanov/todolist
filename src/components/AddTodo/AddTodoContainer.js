@@ -1,9 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { addTodo } from '../../actions/todo-actions'
+import { setDataChanged } from '../../actions'
 import { searchAction } from '../../actions/search-actions'
 import AddTodo from "./AddTodo";
 import axios from "axios";
+import { setAddTodoText } from '../../actions/todo-actions';
 
 class AddTodoContainer extends React.Component {
     constructor(props){
@@ -18,17 +19,17 @@ class AddTodoContainer extends React.Component {
             .then(resp => {
                 console.log("postTodoWithAdd " + text)
                 console.log(resp)
-                this.props.addTodo(resp.data)
+                this.props.setAddTodoText("")
+                this.props.setDataChanged()                
             })
-
-
-
     }
 
     render() {
         return <AddTodo
             addTodo={this.postTodoWithAdd}
-            search={this.props.search}
+            //search={this.props.search}
+            textAddTodo={this.props.textAddTodo}
+            setAddTodoText={this.props.setAddTodoText}
             textToSearch={this.props.textToSearch}
 
         />
@@ -39,13 +40,15 @@ class AddTodoContainer extends React.Component {
 const mapStateToProps = state => {
     return {
         textToSearch: state.searchBar.textToSearch,
-        apiUrl: state.settings.apiUrl
+        apiUrl: state.settings.apiUrl +state.settings.apiTodos,
+        textAddTodo: state.textAddTodo
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    addTodo: todo => dispatch(addTodo(todo)),
-    search: text => dispatch(searchAction(text))
+    setDataChanged: () => dispatch(setDataChanged()),
+    search: text => dispatch(searchAction(text)),
+    setAddTodoText: todoText => dispatch(setAddTodoText(todoText))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTodoContainer )

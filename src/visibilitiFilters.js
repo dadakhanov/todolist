@@ -1,5 +1,5 @@
 export const visibilityFilters = {
-    SHOW_ALL: 'SHOW_ALL',
-    SHOW_ACTIVE: 'SHOW_ACTIVE',
-    SHOW_COMPLETED: 'SHOW_COMLETED'    
+    SHOW_ALL: 'all',
+    SHOW_ACTIVE: 'active',
+    SHOW_COMPLETED: 'completed'    
 }

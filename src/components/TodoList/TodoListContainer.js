@@ -1,100 +1,80 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {saveTodo, setTodos, toggleTodo} from '../../actions/todo-actions'
-import {visibilityFilters} from '../../visibilitiFilters'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import { saveTodo, setTodos } from '../../actions/todo-actions'
+import { setDataChanged } from '../../actions'
 import TodoList from "./TodoList";
 import axios from 'axios'
+import Pagination from '../Pagination/Pagination';
 
-class TodoListContainer extends React.Component {
+const TodoListContainer = ({ apiUrl, setTodos, saveTodo, todoList, visibilityFilter, dataChangedCounter,setDataChanged }) => {
 
-    constructor(props) {
-        super(props)
-        this.postTodoWithToggle.bind(this)
-    }
+    const pageSize = 8
+    const [pageOffset, setPageOffset] = useState(0)
+    const [totalCount, setTotalCount] = useState(0)        
 
+    console.log("TodoListContainer: dataChangedCounter: " + dataChangedCounter)
+    useEffect(() => {
+        const loadTodos = () => {
+            //debugger
+            const url = apiUrl + "?filter=" + visibilityFilter
+                + "&limit=" + pageSize
+                + "&offset=" + pageOffset
 
-
-
-    componentDidMount() {
-        console.log("axios GET ")
-        //debugger
-        console.log(this.props.apiUrl)
-        axios.get(this.props.apiUrl)
-            .then(res => {
-                this.props.setTodos(res.data)
-
-                console.log(res)
-            })
-
-    }
-
-    postTodoWithToggle = (todo) => {
-        console.log("axios PUT postTodoWithToggle")
-        console.log(this.props.apiUrl)
-
-        console.log("togle todo " + todo.id)
-        todo.completed = !todo.completed
-        axios.put(this.props.apiUrl + todo.id,
-            todo)
+            console.log("GET " + url)
+            axios.get(url)
+                .then(res => {
+                    console.log(res.status)
+                    //debugger                    
+                    setTotalCount(res.data.totalElements)                    
+                    setTodos(res.data.content)                                                            
+                })
+        }
+        loadTodos()           
+    },[dataChangedCounter, visibilityFilter, apiUrl, pageOffset, pageSize, setDataChanged, setTodos])
+  
+    const postTodoWithToggle = (todo) => {
+        console.log("PUT " + apiUrl + todo.id)
+        axios
+            .put(apiUrl + todo.id, { ...todo, completed: !todo.completed })
             .then(resp => {
-                console.log("posting data")
-                console.log(resp.data)
-                this.props.saveTodo(resp.data)
+                console.log(resp.status)
+                setDataChanged()
+                saveTodo(resp.data)
             })
 
     }
 
-
-    render() {
-        return (
-            <TodoList todoList={this.props.todoList}
-                      toggleTodo={this.postTodoWithToggle}
-            />
-
-        )
+    const switchPage = pageIndex => {
+        console.log("switchpage " + pageIndex)
+        setPageOffset(pageIndex - 1)
     }
+
+    const pageCount = Math.ceil( totalCount / pageSize)
+    
+    return <div>
+        <TodoList todoList={todoList} toggleTodo={postTodoWithToggle} />
+        <Pagination 
+            currentPage={pageOffset+1} 
+            pageCount={pageCount}
+            pageMax={7}
+            switchPage={switchPage} />    
+    </div>
 }
 
-const mapStateToProps = (state, ownProps) => {
-    //console.log("mapStateToProps from Todolist")
-
-    let visibilityFilter = todo => {
-        switch (ownProps.filter) {
-            case visibilityFilters.SHOW_ACTIVE:
-                return !todo.completed
-            case visibilityFilters.SHOW_COMPLETED:
-                return todo.completed
-            default:
-                return true
-        }
-    }
-
-    let searchTextFilter = (srchTxt, todo) => {
-        if (srchTxt === "")
-            return true
-        else
-            return todo.text.toLowerCase().includes(srchTxt.toLowerCase())
-    }
-
-    //debugger
-
-    const searchText = state.searchBar.textToSearch
-    //debugger
+const mapStateToProps = (state, ownProps) => {        
     return {
-        todoList: state.todoList.filter(todo =>
-            visibilityFilter(todo) && searchTextFilter(searchText, todo)
-        ),
-        apiUrl: state.settings.apiUrl
+        todoList: state.todoList,
+        apiUrl: state.settings.apiUrl + state.settings.apiTodos,
+        visibilityFilter: ownProps.filter,
+        dataChangedCounter: state.settings.dataChangedCounter
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleTodo: id => {
-            dispatch(toggleTodo(id))
-        },
         setTodos: todos => dispatch(setTodos(todos)),
-        saveTodo: todo => dispatch(saveTodo(todo))
+        saveTodo: todo => dispatch(saveTodo(todo)),
+        setDataChanged: () => dispatch(setDataChanged())
     }
 }
 
