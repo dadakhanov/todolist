@@ -1,19 +1,19 @@
 import React from 'react'
 import CenteredTabs from './CenteredTabs'
 import {connect} from "react-redux";
-import {setVisibilityFilter} from "../../actions/visibilityFilterActions";
-import {visibilityFilters} from "../../visibilitiFilters";
+import {navigate} from "../../actions/navigatorActions";
+import {navigationTabs} from "../../actions/navigationTabs";
 
-function CenteredTabsLink({visibilityFilter, setVisibilityFilter}) {
+function CenteredTabsLink({navigator, navigate}) {
     const tabs = [
-        {id: 0, label: 'active', visibilityFilter: visibilityFilters.SHOW_ACTIVE},
-        {id: 1, label: 'completed', visibilityFilter: visibilityFilters.SHOW_COMPLETED},
-        {id: 2, label: 'all', visibilityFilter: visibilityFilters.SHOW_ALL}
+        {id: 0, label: 'active', navigationTab: navigationTabs.ACTIVE},
+        {id: 1, label: 'completed', navigationTab: navigationTabs.COMPLETED},
+        {id: 2, label: 'all', navigationTab: navigationTabs.ALL}
     ]
 
     const handleChangeTab = tab => {
-        setVisibilityFilter(tab.visibilityFilter)
-        console.log("change tab to " + tab.visibilityFilter)
+        navigate(tab.navigationTab, 0)
+        console.log("change tab to " + tab.navigationTab)
     }
 
     return <CenteredTabs onTabChange={handleChangeTab}
@@ -24,8 +24,8 @@ function CenteredTabsLink({visibilityFilter, setVisibilityFilter}) {
 
 const mapStateToProps = state => {
     return {
-        visibilityFilter: state.visibilityFilter
+        navigator: state.navigator
     }
 }
 
-export default connect(mapStateToProps,{setVisibilityFilter})(CenteredTabsLink)
+export default connect(mapStateToProps,{navigate})(CenteredTabsLink)

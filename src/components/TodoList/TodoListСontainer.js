@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {saveTodo, setTodos} from '../../actions/todoActions'
 import {setDataChanged} from '../../actions'
@@ -6,24 +6,16 @@ import TodoList from "./TodoList";
 import axios from 'axios'
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import {navigate} from "../../actions/navigatorActions";
 
-function TodoListContainer({
-                               apiUrl, setTodos, saveTodo, todoList, visibilityFilter
-                               , dataChangedCounter, setDataChanged, serverTotalCount
-                           }) {
-
-
-
-    console.log(visibilityFilter)
-    const pageSize = 5
-    const [pageOffset, setPageOffset] = useState(0)
-    //const [pageOffset] = useState(0)
+function TodoListContainer({apiUrl, setTodos, saveTodo, todoList, dataChangedCounter, setDataChanged, serverTotalCount, navigator, navigate}) {
+    const pageSize = 10
 
     useEffect(() => {
         const loadTodos = () => {
-            const url = apiUrl + "?filter=" + visibilityFilter
+            const url = apiUrl + "?filter=" + navigator.tab
                 + "&limit=" + pageSize
-                + "&offset=" + pageOffset
+                + "&offset=" + navigator.page
 
             console.log("GET " + url)
             axios.get(url)
@@ -33,7 +25,7 @@ function TodoListContainer({
                 })
         }
         loadTodos()
-    }, [dataChangedCounter, visibilityFilter, apiUrl, pageOffset, pageSize, setDataChanged, setTodos])
+    }, [dataChangedCounter, navigator, apiUrl, pageSize, setDataChanged, setTodos])
 
     const postTodoWithToggle = (todo) => {
         console.log("PUT " + apiUrl + todo.id)
@@ -58,59 +50,41 @@ function TodoListContainer({
             })
 
     }
-    /*
-        const switchPage = pageIndex => {
-            console.log("switchpage " + pageIndex)
-            setPageOffset(pageIndex - 1)
-        }
 
-        const pageCount = Math.ceil( serverTotalCount / pageSize)
-      */
-
-    const pageCount = Math.ceil( serverTotalCount / pageSize)
-    console.log(pageCount)
+    const pageCount = Math.ceil(serverTotalCount / pageSize)
 
     function moveLeft() {
-        setPageOffset(pageOffset - 1)
+        navigate(navigator.tab, navigator.page - 1)
     }
 
     function moveRight() {
-        setPageOffset(pageOffset + 1)
+        navigate(navigator.tab, navigator.page + 1)
     }
 
-    return <div>
-        <Grid container alignItems="flex-start" justify="flex-end" direction="row">
-            <Button onClick={moveLeft}  disabled={pageOffset===0}>PREVIOUS</Button>
-            <Button onClick={moveRight} disabled={pageCount===pageOffset+1} >NEXT</Button>
-        </Grid>
-        <TodoList todoList={todoList} toggleTodo={postTodoWithToggle}
-                  deleteTodo={postTodoWithDelete}
-        />
-
-
-
-
-    </div>
+    return (
+        <div>
+            <Grid container alignItems="flex-start" justify="flex-end" direction="row">
+                <Button onClick={moveLeft} disabled={navigator.page === 0}>NEWER</Button>
+                <Button onClick={moveRight} disabled={pageCount === navigator.page + 1 || pageCount === 0}>OLDER</Button>
+            </Grid>
+            <TodoList todoList={todoList} toggleTodo={postTodoWithToggle}
+                      deleteTodo={postTodoWithDelete}
+            />
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
         todoList: state.todoList.data,
         apiUrl: state.settings.apiUrl + state.settings.apiTodos,
-        visibilityFilter: state.visibilityFilter,
+        navigator: state.navigator,
         dataChangedCounter: state.todoList.dataChangedCounter,
         serverTotalCount: state.todoList.serverTotalCount
     }
 }
 
 export default connect(mapStateToProps,
-    {setTodos, saveTodo, setDataChanged})(TodoListContainer)
+    {setTodos, saveTodo, setDataChanged, navigate})(TodoListContainer)
 
 
-/*
-  <Pagination
-        currentPage={pageOffset+1}
-        pageCount={pageCount}
-        pageMax={5}
-        switchPage={switchPage} />
-        */

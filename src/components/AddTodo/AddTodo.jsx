@@ -31,6 +31,7 @@ export default function AddTodo({addTodo, textAddTodo, setAddTodoText}) {
             <Paper className={classes.root}>
                 <Container>
                     <Input
+                        multiline
                         placeholder="new task..."
                         className={classes.input}
                         inputProps={{
