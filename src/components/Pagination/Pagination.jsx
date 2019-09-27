@@ -12,13 +12,13 @@ const propTypes = {
 export default function Pagination({ currentPage, pageMax, pageCount, switchPage}) {
     //const pageCount = Math.ceil( itemCount / pageSize)
     if (pageCount < 2) 
-        return <div></div>       
+        return <div/>
     
     // < 1 > >>  < 1 > <<    
     if ((pageMax===4) && (pageCount>6)) {        
         return <div>         
             <button onClick={() => switchPage(currentPage-1)}
-                        disabled={currentPage===1 ? true : false}
+                        disabled={currentPage === 1}
                         className={styles.pageButton} >
                         {"<"}
             </button>      
@@ -27,18 +27,18 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
                         {currentPage}
             </button>                            
             <button onClick={() => switchPage(currentPage+1)}
-                        disabled={currentPage===pageCount ? true : false}
+                        disabled={currentPage === pageCount}
                         className={styles.pageButton} >
                         {">"}
             </button>      
             {currentPage===pageCount
             ? <button onClick={() => switchPage(1)}
-                        disabled={currentPage===1 ? true : false}
+                        disabled={currentPage === 1}
                         className={styles.pageButton} >
                         {"<<"}
             </button>      
             : <button onClick={() => switchPage(pageCount)}
-                        disabled={currentPage===pageCount ? true : false}
+                        disabled={currentPage === pageCount}
                         className={styles.pageButton} >
                         {">>"}
             </button>      
@@ -50,7 +50,7 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
     if ((pageMax<=4) && (pageCount>6)) {        
         return <div>
             <button onClick={() => switchPage(currentPage-1)}
-                        disabled={currentPage===1 ? true : false}
+                        disabled={currentPage === 1}
                         className={styles.pageButton} >
                         {"<"}
             </button>      
@@ -59,7 +59,7 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
                         {currentPage}
             </button>                            
             <button onClick={() => switchPage(currentPage+1)}
-                        disabled={currentPage===pageCount ? true : false}
+                        disabled={currentPage === pageCount}
                         className={styles.pageButton} >
                         {">"}
             </button>      
@@ -67,15 +67,15 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
     }
     
     // << < 1 > >>
-    if ((pageMax<=6) && (pageCount>6)) {        
+    if ((pageMax<=6) && (pageCount>=6)) {        
         return <div>
             <button onClick={() => switchPage(1)}
-                        disabled={currentPage===1 ? true : false}
+                        disabled={currentPage === 1}
                         className={styles.pageButton} >
                         {"<<"}
             </button>      
             <button onClick={() => switchPage(currentPage-1)}
-                        disabled={currentPage===1 ? true : false}
+                        disabled={currentPage === 1}
                         className={styles.pageButton} >
                         {"<"}
             </button>      
@@ -84,12 +84,12 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
                         {currentPage}
             </button>                            
             <button onClick={() => switchPage(currentPage+1)}
-                        disabled={currentPage===pageCount ? true : false}
+                        disabled={currentPage === pageCount}
                         className={styles.pageButton} >
                         {">"}
             </button>      
             <button onClick={() => switchPage(pageCount)}
-                        disabled={currentPage===pageCount ? true : false}
+                        disabled={currentPage === pageCount}
                         className={styles.pageButton} >
                         {">>"}
             </button>      
@@ -155,7 +155,7 @@ export default function Pagination({ currentPage, pageMax, pageCount, switchPage
             {pages
                 .filter(v=> v!=="")
                 .map((v,i) => <button key={i} onClick={() => switchPage(v)}
-                        disabled={v===".." ? true : false}
+                        disabled={v === ".."}
                         className={styles.pageButton + " " +  (v === currentPage ? styles.active : "")} >
                         {v}
                 </button>                

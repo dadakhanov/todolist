@@ -5,6 +5,8 @@ import AddTodo from "./AddTodo";
 import axios from "axios";
 import { setAddTodoText } from '../../actions/todoActions';
 
+
+
 class AddTodoContainer extends React.Component {
     constructor(props){
         super(props)
@@ -12,6 +14,8 @@ class AddTodoContainer extends React.Component {
     }
 
     postTodoWithAdd = text => {
+        if (text==="")
+            return
         console.log("POST " + this.props.apiUrl)
         axios.post(this.props.apiUrl,{text})
             .then(resp => {

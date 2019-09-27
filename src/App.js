@@ -2,21 +2,18 @@ import React from 'react';
 import './App.css';
 import AddTodoContainer from './components/AddTodo/AddTodoContainer';
 import TodoListContainer from './components/TodoList/TodoListСontainer';
-import NavbarFilters from './components/NavbarFilters/NavbarFilters';
-import {Route} from 'react-router-dom'
-import {visibilityFilters} from './visibilitiFilters';
+import { Container } from '@material-ui/core';
+import CenteredTabsContainer from './components/CenteredTabs/CenteredTabsContainer';
 
 function App() {
+    
     return (
-        <div className="App">
-            <NavbarFilters/>
-            <AddTodoContainer/>
-            <Route
-                exact path={["/active", "/"]}
-                render={() => <TodoListContainer filter={visibilityFilters.SHOW_ACTIVE}/>}
-            />
-            <Route path="/completed" render={() => <TodoListContainer filter={visibilityFilters.SHOW_COMPLETED}/>}/>
-            <Route path="/all" render={() => <TodoListContainer filter={visibilityFilters.SHOW_ALL}/>}/>
+        <div className="App">                    
+            <CenteredTabsContainer />
+            <Container maxWidth="md">
+                <AddTodoContainer/>
+                <TodoListContainer />
+            </Container>
         </div>
     );
 }

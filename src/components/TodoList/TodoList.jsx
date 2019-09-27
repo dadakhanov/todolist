@@ -8,8 +8,9 @@ export default function TodoList(props) {
             .map(todo =>
                 <Todo {...todo}
                       toggleTodo={() => props.toggleTodo(todo)}
+                      deleteTodo={() => props.deleteTodo(todo.id)}
                       key={todo.id}
-                />
+                />                
                 
             )}            
     </div>
