@@ -1,10 +1,10 @@
 import React from 'react'
-import CenteredTabs from './CenteredTabs'
+import TabBar from './TabBar'
 import {connect} from "react-redux";
 import {navigate} from "../../actions/navigatorActions";
 import {navigationTabs} from "../../actions/navigationTabs";
 
-function CenteredTabsLink({navigator, navigate}) {
+function TabBarContainer({navigator, navigate}) {
     const tabs = [
         {id: 0, label: 'active', navigationTab: navigationTabs.ACTIVE},
         {id: 1, label: 'completed', navigationTab: navigationTabs.COMPLETED},
@@ -13,12 +13,14 @@ function CenteredTabsLink({navigator, navigate}) {
 
     const handleChangeTab = tab => {
         navigate(tab.navigationTab, 0)
-        console.log("change tab to " + tab.navigationTab)
+        sessionStorage.setItem("lastTab", tab.navigationTab)
     }
 
-    return <CenteredTabs onTabChange={handleChangeTab}
-                      tabs={tabs}
-                      defaultTabIndex={0}
+    const tabIndex = tabs.filter( tab => tab.navigationTab === navigator.tab)[0].id
+
+    return <TabBar onTabChange={handleChangeTab}
+                   tabs={tabs}
+                   tabIndex={tabIndex}
         />
 }
 
@@ -28,4 +30,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps,{navigate})(CenteredTabsLink)
+export default connect(mapStateToProps,{navigate})(TabBarContainer)

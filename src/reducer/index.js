@@ -1,7 +1,7 @@
 import { todosReducer } from "./todolistReducer";
 import { combineReducers } from "redux";
 import { settingsReducer } from "./settingsReducer";
-import { addTodoReducer } from "./addtodoReducer";
+import { addTodoReducer } from "./addTodoReducer";
 import { navigatorReducer } from "./navigatorReducer";
 
 export default combineReducers({

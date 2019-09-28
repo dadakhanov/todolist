@@ -8,22 +8,21 @@ import {PropTypes} from 'prop-types'
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
+        marginBottom: 5
     },
 });
 
-export default function CenteredTabs({onTabChange, tabs, defaultTabIndex}) {
+export default function TabBar({onTabChange, tabs, tabIndex}) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(defaultTabIndex);
 
     const handleChange = (event, newValue) => {
         onTabChange(tabs[newValue])
-        setValue(newValue);
-    };
+    }; 
 
     return (
         <Paper className={classes.root}>
             <Tabs
-                value={value}
+                value={tabIndex}
                 onChange={handleChange}
                 indicatorColor="primary"
                 textColor="primary"
@@ -37,8 +36,11 @@ export default function CenteredTabs({onTabChange, tabs, defaultTabIndex}) {
     );
 }
 
-CenteredTabs.propTypes = {
+TabBar.propTypes = {
     onTabChange: PropTypes.func.isRequired,
-    defaultTabIndex: PropTypes.number,
-    tabs: PropTypes.array.isRequired
+    tabIndex: PropTypes.number.isRequired,
+    tabs: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired
+    })).isRequired
 }

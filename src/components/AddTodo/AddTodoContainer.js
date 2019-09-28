@@ -21,6 +21,7 @@ class AddTodoContainer extends React.Component {
             .then(resp => {
                 console.log(resp.status)
                 this.props.setAddTodoText("")
+                sessionStorage.setItem("addTodoText", "")
                 this.props.setDataChanged()                
             })
     }
@@ -41,5 +42,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps
-    , {setDataChanged, setAddTodoText} )(AddTodoContainer )
+export default connect(mapStateToProps, {setDataChanged, setAddTodoText} )(AddTodoContainer )

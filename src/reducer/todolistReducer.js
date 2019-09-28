@@ -2,8 +2,7 @@
 const initialState = {
     data: [],
     serverTotalCount: 0,
-    dataChangedCounter: 0, //subscribe to changes for setMapToProps
-    visibilityFilter: ''
+    dataChangedCounter: 0 //subscribe to changes
 }
 
 export const todosReducer = (state = initialState, action) => {

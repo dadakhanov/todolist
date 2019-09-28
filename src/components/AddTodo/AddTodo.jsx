@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './AddTodo.module.css'
 import {makeStyles} from '@material-ui/core/styles';
-//import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import {Container} from '@material-ui/core';
@@ -23,7 +22,7 @@ export default function AddTodo({addTodo, textAddTodo, setAddTodoText}) {
 
     const handleChange = e => {
         setAddTodoText(e.currentTarget.value)
-
+        sessionStorage.setItem("addTodoText", e.currentTarget.value)
     }
 
     return (
@@ -31,43 +30,22 @@ export default function AddTodo({addTodo, textAddTodo, setAddTodoText}) {
             <Paper className={classes.root}>
                 <Container>
                     <Input
-                        multiline
+                        fullWidth multiline
                         placeholder="new task..."
                         className={classes.input}
-                        inputProps={{
-                            'aria-label': 'description',
-                        }}
-
+                        inputProps={{'aria-label': 'description'}}
                         value={textAddTodo}
-                        onChange={(e) => {
-                            handleChange(e)
-                        }}
-
-                        fullWidth
-
+                        onChange={(e) => handleChange(e)}
                         endAdornment={(
-                            <IconButton onClick={() => { addTodo(textAddTodo) }}>
+                            <IconButton onClick={() => {
+                                addTodo(textAddTodo)
+                            }}>
                                 <AddIcon/>
                             </IconButton>
-
                         )}
-
                     />
                 </Container>
-
-
             </Paper>
         </div>
-
-
     )
 }
-
-
-/*
-  <Button variant="outlined" size="medium" color="primary" className={classes.margin}
-                                onClick={() => { addTodo() }}
-                            >
-                                add
-                            </Button>
-                            */
