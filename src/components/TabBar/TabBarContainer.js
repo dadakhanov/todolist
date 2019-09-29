@@ -1,22 +1,21 @@
 import React from 'react'
 import TabBar from './TabBar'
-import {connect} from "react-redux";
-import {navigate} from "../../actions/navigatorActions";
-import {navigationTabs} from "../../actions/navigationTabs";
+import {connect} from "react-redux"
+import {filters} from "../../actions/filters"
+import {setFilterThunk} from "../../actions/filterActions"
 
-function TabBarContainer({navigator, navigate}) {
+function TabBarContainer({filter, setFilterThunk}) {
     const tabs = [
-        {id: 0, label: 'active', navigationTab: navigationTabs.ACTIVE},
-        {id: 1, label: 'completed', navigationTab: navigationTabs.COMPLETED},
-        {id: 2, label: 'all', navigationTab: navigationTabs.ALL}
+        {id: 0, label: 'active', filter: filters.ACTIVE},
+        {id: 1, label: 'completed', filter: filters.COMPLETED},
+        {id: 2, label: 'all', filter: filters.ALL}
     ]
 
     const handleChangeTab = tab => {
-        navigate(tab.navigationTab, 0)
-        sessionStorage.setItem("lastTab", tab.navigationTab)
+        setFilterThunk(tab.filter)
     }
 
-    const tabIndex = tabs.filter( tab => tab.navigationTab === navigator.tab)[0].id
+    const tabIndex = tabs.filter(tab => tab.filter === filter)[0].id
 
     return <TabBar onTabChange={handleChangeTab}
                    tabs={tabs}
@@ -26,8 +25,8 @@ function TabBarContainer({navigator, navigate}) {
 
 const mapStateToProps = state => {
     return {
-        navigator: state.navigator
+        filter: state.filter
     }
 }
 
-export default connect(mapStateToProps,{navigate})(TabBarContainer)
+export default connect(mapStateToProps, {setFilterThunk})(TabBarContainer)

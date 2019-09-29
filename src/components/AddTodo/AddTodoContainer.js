@@ -1,45 +1,36 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { setDataChanged } from '../../actions'
-import AddTodo from "./AddTodo";
-import axios from "axios";
-import { setAddTodoText } from '../../actions/todoActions';
+import AddTodo from "./AddTodo"
+import {addTodoThunk, setAddTodoText} from '../../actions/todoActions'
 
+function AddTodoContainer(props) {
+    const {addTodoThunk, filter, pageSize, currentPage} = props
 
-
-class AddTodoContainer extends React.Component {
-    constructor(props){
-        super(props)
-        this.postTodoWithAdd.bind(this)
+    function addTodo(text) {
+        addTodoThunk(text, filter, pageSize, currentPage)
     }
 
-    postTodoWithAdd = text => {
-        if (text==="")
-            return
-        console.log("POST " + this.props.apiUrl)
-        axios.post(this.props.apiUrl,{text})
-            .then(resp => {
-                console.log(resp.status)
-                this.props.setAddTodoText("")
-                sessionStorage.setItem("addTodoText", "")
-                this.props.setDataChanged()                
-            })
-    }
-
-    render() {
-        return <AddTodo
-            addTodo={this.postTodoWithAdd}
-            textAddTodo={this.props.textAddTodo}
-            setAddTodoText={this.props.setAddTodoText}
+    const {textAddTodo, setAddTodoText} = props
+    return (
+        <AddTodo
+            addTodo={addTodo}
+            textAddTodo={textAddTodo}
+            setAddTodoText={setAddTodoText}
         />
-    }
+    )
 }
 
 const mapStateToProps = state => {
     return {
-        apiUrl: state.settings.apiUrl +state.settings.apiTodos,
-        textAddTodo: state.textAddTodo
+        textAddTodo: state.textAddTodo,
+        pageSize: state.todoList.pageSize,
+        currentPage: state.todoList.currentPage,
+        filter: state.filter
     }
 }
 
-export default connect(mapStateToProps, {setDataChanged, setAddTodoText} )(AddTodoContainer )
+export default connect(mapStateToProps,
+    {
+        setAddTodoText,
+        addTodoThunk
+    })(AddTodoContainer)

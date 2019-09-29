@@ -1,22 +1,28 @@
+const lastPage = sessionStorage.getItem("lastPage")
 
 const initialState = {
     data: [],
     serverTotalCount: 0,
-    dataChangedCounter: 0 //subscribe to changes
+    currentPage: lastPage !== null ? parseInt(lastPage) : 0,
+    pageSize: 4
 }
 
 export const todosReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'SET_CURRENT_PAGE':
+            return {
+                ...state,
+                currentPage: action.currentPage
+            }
         case 'SET_TODOS':
             return {
                 ...state,
                 data: action.todoList,
-                serverTotalCount: action.serverTotalCount                
+                serverTotalCount: action.serverTotalCount
             }
         case 'SAVE_TODO':
             return {
                 ...state,
-        //        dataChangedCounter: state.dataChangedCounter + 1,
                 data: state.data.map(todo =>
                     todo.id === action.todo.id
                         ? { ...todo, text: action.todo.text, completed: action.todo.completed }
@@ -25,8 +31,7 @@ export const todosReducer = (state = initialState, action) => {
             }
         case 'SET_DATA_CHANGED':
             return {
-                ...state,
-                dataChangedCounter: state.dataChangedCounter + 1
+                ...state
             }
 
         default:

@@ -1,13 +1,11 @@
-import { todosReducer } from "./todolistReducer";
-import { combineReducers } from "redux";
-import { settingsReducer } from "./settingsReducer";
-import { addTodoReducer } from "./addTodoReducer";
-import { navigatorReducer } from "./navigatorReducer";
+import {combineReducers} from "redux"
+import {todosReducer} from "./todolistReducer"
+import {addTodoReducer} from "./addTodoReducer"
+import {filterReducer} from "./filterReducer"
 
 export default combineReducers({
-    todoList: todosReducer,    
-    settings: settingsReducer,
+    todoList: todosReducer,
     textAddTodo: addTodoReducer,
-    navigator: navigatorReducer
+    filter: filterReducer
 })
 

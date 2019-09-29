@@ -1,53 +1,25 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {saveTodo, setTodos} from '../../actions/todoActions'
-import {setDataChanged} from '../../actions'
-import TodoList from "./TodoList";
-import axios from 'axios'
-import {navigate} from "../../actions/navigatorActions";
+import {deleteTodoThunk, getTodosThunk, saveTodoThunk} from '../../actions/todoActions'
+import TodoList from "./TodoList"
 
-function TodoListContainer({apiUrl, setTodos, saveTodo, todoList, dataChangedCounter, setDataChanged, navigator}) {
+function TodoListContainer({todoList, filter, currentPage, pageSize, getTodosThunk, saveTodoThunk, deleteTodoThunk}) {
 
     useEffect(() => {
-        const loadTodos = () => {
-            const url = `${apiUrl}?filter=${navigator.tab}&limit=${navigator.pageSize}&offset=${navigator.page}`
-            console.log("GET " + url)
-            axios.get(url)
-                .then(resp => {
-                    console.log(resp.status)
-                    setTodos(resp.data.content, resp.data.totalElements)
-                })
-        }
-        loadTodos()
-    }, [dataChangedCounter, navigator, apiUrl, setDataChanged, setTodos])
+        getTodosThunk(filter, pageSize, currentPage)
+    }, [getTodosThunk, filter, pageSize, currentPage])
 
-    const postTodoWithToggle = (todo) => {
-        console.log("PUT " + apiUrl + todo.id)
-        axios
-            .put(apiUrl + todo.id, {...todo, completed: !todo.completed})
-            .then(resp => {
-                console.log(resp.status)
-                setDataChanged()
-                saveTodo(resp.data)
-            })
-
+    const toggleTodo = (todo) => {
+        saveTodoThunk({...todo, completed: !todo.completed}, filter, pageSize, currentPage)
     }
 
-    const postTodoWithDelete = (id) => {
-        console.log("DELETE " + apiUrl + id)
-        axios
-            .delete(apiUrl + id)
-            .then(resp => {
-                console.log(resp.status)
-                setDataChanged()
-            })
+    const deleteTodo = id => {
+        deleteTodoThunk(id, filter, pageSize, currentPage)
     }
 
     return (
         <div>
-            <TodoList todoList={todoList} toggleTodo={postTodoWithToggle}
-                      deleteTodo={postTodoWithDelete}
-            />
+            <TodoList todoList={todoList} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
         </div>
     )
 }
@@ -55,13 +27,17 @@ function TodoListContainer({apiUrl, setTodos, saveTodo, todoList, dataChangedCou
 const mapStateToProps = (state) => {
     return {
         todoList: state.todoList.data,
-        apiUrl: state.settings.apiUrl + state.settings.apiTodos,
-        navigator: state.navigator,
-        dataChangedCounter: state.todoList.dataChangedCounter,
-        serverTotalCount: state.todoList.serverTotalCount
+        filter: state.filter,
+        currentPage: state.todoList.currentPage,
+        pageSize: state.todoList.pageSize
     }
 }
 
-export default connect(mapStateToProps, {setTodos, saveTodo, setDataChanged, navigate})(TodoListContainer)
+export default connect(mapStateToProps,
+    {
+        getTodosThunk,
+        saveTodoThunk,
+        deleteTodoThunk
+    })(TodoListContainer)
 
 
